@@ -1,0 +1,10 @@
+{
+  "name": "schedule-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static auto-scheduling calendar tool.",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  }
+}
