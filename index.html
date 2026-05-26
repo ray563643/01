@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>自動排班月曆</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <section class="brand">
+          <div>
+            <h1>自動排班</h1>
+            <p>正職休假、兼職時段、店休與需求人數</p>
+          </div>
+          <button id="resetDemo" class="icon-button" title="載入範例資料">↻</button>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <h2>月份</h2>
+            <button id="todayBtn" class="small-button">本月</button>
+          </div>
+          <div class="month-controls">
+            <button id="prevMonth" class="icon-button" title="上一月">‹</button>
+            <input id="monthInput" type="month" />
+            <button id="nextMonth" class="icon-button" title="下一月">›</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <h2>需求人數</h2>
+          </div>
+          <div class="field-grid">
+            <label>
+              平日
+              <input id="weekdayNeed" type="number" min="0" max="20" />
+            </label>
+            <label>
+              假日
+              <input id="weekendNeed" type="number" min="0" max="20" />
+            </label>
+          </div>
+          <p class="hint">需求會用來檢查每日正職上班加兼職排班是否足夠。</p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <h2>正職限制</h2>
+          </div>
+          <div class="field-grid">
+            <label>
+              最多連上
+              <input id="maxConsecutive" type="number" min="1" max="14" />
+            </label>
+            <label>
+              每日至少正職
+              <input id="minFulltime" type="number" min="0" max="20" />
+            </label>
+          </div>
+          <label class="check-line">
+            <input id="preferWeekdayOff" type="checkbox" />
+            優先排平日休
+          </label>
+        </section>
+
+        <section class="panel people-panel">
+          <div class="panel-title">
+            <h2>人員</h2>
+            <button id="addPerson" class="small-button">新增</button>
+          </div>
+          <div id="peopleList" class="people-list"></div>
+        </section>
+      </aside>
+
+      <section class="workspace">
+        <header class="toolbar">
+          <div>
+            <h2 id="calendarTitle">月曆</h2>
+            <p id="summaryText">尚未產生排班</p>
+          </div>
+          <div class="toolbar-actions">
+            <button id="autoSchedule" class="primary-button">自動排正職休假</button>
+            <button id="exportCsv" class="secondary-button">匯出 CSV</button>
+          </div>
+        </header>
+
+        <section id="warnings" class="warnings hidden"></section>
+
+        <section class="calendar-wrap">
+          <div class="week-row">
+            <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+          </div>
+          <div id="calendarGrid" class="calendar-grid"></div>
+        </section>
+      </section>
+
+      <aside id="dayDrawer" class="day-drawer">
+        <div class="drawer-header">
+          <div>
+            <h2 id="drawerTitle">日期</h2>
+            <p id="drawerNeed">需求</p>
+          </div>
+          <button id="closeDrawer" class="icon-button" title="關閉">×</button>
+        </div>
+        <label class="store-closed">
+          <input id="drawerClosed" type="checkbox" />
+          店休
+        </label>
+        <div class="drawer-section">
+          <h3>正職休假</h3>
+          <div id="drawerFulltime"></div>
+        </div>
+        <div class="drawer-section">
+          <h3>兼職時段</h3>
+          <div id="drawerParttime"></div>
+        </div>
+      </aside>
+    </main>
+
+    <template id="personTemplate">
+      <article class="person-card">
+        <div class="person-top">
+          <input class="person-name" />
+          <input class="person-color" type="color" />
+          <button class="person-remove icon-button" title="刪除">×</button>
+        </div>
+        <div class="person-options">
+          <select class="person-role">
+            <option value="fulltime">正職</option>
+            <option value="parttime">兼職</option>
+          </select>
+          <label class="quota-label">
+            排假天數
+            <input class="person-quota" type="number" min="0" max="31" />
+          </label>
+        </div>
+        <label class="request-label">
+          指定休
+          <input class="person-requests" placeholder="例如 5, 12, 20" />
+        </label>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
